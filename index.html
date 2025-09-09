@@ -14,7 +14,7 @@
     <meta property="og:title" content="Roots Festival 2025 | Baia Mare's Urban Culture & Hip-Hop Fest">
     <meta property="og:description" content="Experience two days of music, art, and community. All profits from the Roots Festival go towards supporting local schools.">
     <meta property="og:image" content="roots.png"> <!-- Updated to your local image -->
-    <meta property="og:url" content="[Your Website URL Here]">
+    <meta property="og:url" content="https://radacinile.ro">
     <meta property="og:type" content="website">
 
     <!-- Twitter Card Meta Tags -->
@@ -23,21 +23,53 @@
     <meta name="twitter:description" content="Join the celebration of urban culture in Baia Mare. Live music, graffiti, and community vibes.">
     <meta name="twitter:image" content="roots.png"> <!-- Updated to your local image -->
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Preload background image to improve Largest Contentful Paint -->
+    <link rel="preload" as="image" href="roots.png">
+
+    <!-- Google Fonts: preconnect + non-blocking stylesheet load (avoid render-blocking @import) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@900&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@900&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet"></noscript>
+
+    <!-- Use a static Tailwind build from CDN to avoid runtime CSS generation (faster first render) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Site icons -->
+    <link rel="icon" href="mic.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="mic.svg">
+    <link rel="manifest" href="site.webmanifest">
     <style>
-        /* Sourcing the necessary fonts from Google Fonts */
-        @import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@900&family=DM+Sans:wght@400;700&display=swap');
+        /* Fonts are loaded via <link> preconnect + stylesheet in the head to avoid render-blocking @import */
         
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
         body {
             font-family: 'DM Sans', sans-serif;
-            /* Using your local PNG as the background */
+            /* Keep a safe fallback background color */
+            background-color: #000;
+            color: #EAEAEA;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Fixed background layer: this keeps the image stationary while the page scrolls
+           and works on browsers that don't fully support background-attachment: fixed (mobile). */
+        .fixed-bg {
+            position: fixed;
+            inset: 0;
             background-image: url('roots.png');
             background-size: cover;
             background-position: center center;
-            background-attachment: fixed;
-            color: #EAEAEA;
-            overflow-x: hidden;
+            background-repeat: no-repeat;
+            z-index: -1;
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         .font-display {
@@ -56,6 +88,8 @@
         }
 
         .container-box {
+            position: relative; /* ensure it sits above the fixed background */
+            z-index: 1;
             background: rgba(10, 10, 10, 0.7);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -123,22 +157,26 @@
 </head>
 <body class="p-4 md:p-8">
 
+    <!-- Fixed background layer (keeps background stationary while content scrolls) -->
+    <div class="fixed-bg" aria-hidden="true"></div>
+
     <div class="container mx-auto max-w-5xl container-box rounded-lg p-6 md:p-12">
         
-        <header class="mb-16"></header>
+        <header class="mb-5"></header>
             <div class="flex flex-col md:flex-row items-center justify-center gap-8">
-                <img src="logorootsalbsimplu.svg" alt="Roots Festival Logo" class="mx-auto w-full max-w-lg md:mx-0 md:w-80">
+                <img src="logorootsalbsimplu.svg" alt="Roots Festival Logo" class="mx-auto w-full max-w-lg md:mx-0 md:w-80" width="512" height="256" decoding="async" loading="eager" fetchpriority="high">
                 <div class="text-center md:text-left">
                     <h2 class="font-display text-4xl md:text-6xl text-outline mb-2">Countdown</h2>
-                    <p class="text-gray-300">Join us Sept 12-13, 2025 · Baia Mare</p>
+                    <p class="text-gray-300">Muzeul Județean de Istorie și Arheologie Maramureș, Baia Mare</p>
+                    <p class="text-gray-300">Sept 12–13, 2025</p>
                 </div>
             </div>
         </header>
 
-        <section class="text-center mb-16">
+        <section class="text-center">
             <!-- heading kept for semantics in case layout stacks -->
         </section>
-            <div id="countdown" class="grid grid-cols-4 gap-4 text-center">
+            <div id="countdown" class="grid grid-cols-4 gap-4 text-center m-4">
                 <div>
                     <span id="days" class="font-display text-6xl md:text-8xl text-white">00</span>
                     <p class="text-lg text-gray-400">Days</p>
@@ -159,12 +197,12 @@
         </section>
 
         <!-- Donations & Instagram Section -->
-        <section class="mb-20 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch text-center md:text-left">
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch text-center md:text-left">
             <div class="bg-black/50 p-6 rounded-md border border-gray-700 h-full flex flex-col justify-between">
                 <div>
                     <h3 class="font-display text-3xl text-outline mb-4">Support The Cause</h3>
                     <p class="text-gray-300 mb-4">
-                        All profits are donated to local schools. Support urban culture & education.
+                        Part of the profits are donated to local schools. Support urban culture & education.
                     </p>
                     <p class="font-bold text-white">Asociația Rădăcini Urbane</p>
                 </div>
@@ -228,13 +266,13 @@
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
-                <div class="artist-grid-item p-4 text-center text-lg font-bold">Taiwan MC & DJ Trim</div>
-                <div class="artist-grid-item p-4 text-center text-lg font-bold">Psihotrop</div>
-                <div class="artist-grid-item p-4 text-center text-lg font-bold">Ultimu Nivel</div>
-                <div class="artist-grid-item p-4 text-center text-lg font-bold">Bossferatu</div>
-                <div class="artist-grid-item p-4 text-center text-lg font-bold col-span-2 md:col-span-1">Vlad Flueraru ft. DJ Nasa & Frank</div>
-                <div class="artist-grid-item p-4 text-center text-lg font-bold">DJ Undoo</div>
-                <div class="artist-grid-item p-4 text-center text-lg font-bold">DJ Silent Disciple</div>
+                <a href="https://www.instagram.com/roots.bm/p/DNPvL4-sGdA/" target="_blank" rel="noopener noreferrer" class="artist-grid-item p-4 text-center text-lg font-bold" aria-label="Taiwan MC & DJ Trim on Instagram">Taiwan MC & DJ Trim</a>
+                <a href="https://www.instagram.com/roots.bm/p/DN46zPtAjfc/" target="_blank" rel="noopener noreferrer" class="artist-grid-item p-4 text-center text-lg font-bold" aria-label="Psihotrop on Instagram">Psihotrop</a>
+                <a href="https://www.instagram.com/roots.bm/p/DNxVxhJ2qCs/" target="_blank" rel="noopener noreferrer" class="artist-grid-item p-4 text-center text-lg font-bold" aria-label="Ultimu Nivel on Instagram">Ultimu Nivel</a>
+                <a href="https://www.instagram.com/roots.bm/p/DODPHjvAgrB/" target="_blank" rel="noopener noreferrer" class="artist-grid-item p-4 text-center text-lg font-bold" aria-label="Bossferatu on Instagram">Bossferatu</a>
+                <a href="https://www.instagram.com/roots.bm/p/DNkRRv4sMgv/" target="_blank" rel="noopener noreferrer" class="artist-grid-item p-4 text-center text-lg font-bold col-span-2 md:col-span-1" aria-label="Vlad Flueraru on Instagram">Vlad Flueraru ft. DJ Nasa & Frank</a>
+                <a href="https://www.instagram.com/roots.bm/p/DM-LQhEMY3F/" target="_blank" rel="noopener noreferrer" class="artist-grid-item p-4 text-center text-lg font-bold" aria-label="DJ Undoo on Instagram">DJ Undoo</a>
+                <a href="https://www.instagram.com/roots.bm/p/DNDXQlFM9Qc/" target="_blank" rel="noopener noreferrer" class="artist-grid-item p-4 text-center text-lg font-bold" aria-label="DJ Silent Disciple on Instagram">DJ Silent Disciple</a>
             </div>
         </section>
 

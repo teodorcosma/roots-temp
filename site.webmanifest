@@ -1,0 +1,15 @@
+{
+  "name": "Roots Festival 2025",
+  "short_name": "RootsFest",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#CC172D",
+  "icons": [
+    {
+      "src": "/mic.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
